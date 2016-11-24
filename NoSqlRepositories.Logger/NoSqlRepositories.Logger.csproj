@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="NoSqlRepositories.Core, Version=1.8.26.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\NoSqlRepositories.Core.1.8.26.0\lib\portable-net45+sl5+wp8+wpa81+win8+monoandroid+monotouch\NoSqlRepositories.Core.dll</HintPath>
+      <HintPath>..\packages\NoSqlRepositories.Core.1.8.26.0\lib\portable-net45+sl5+wp8+wpa81+win8+monoandroid+monotouch\NoSqlRepositories.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
