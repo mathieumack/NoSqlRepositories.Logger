@@ -5,6 +5,12 @@ namespace NoSqlRepositories.Logger
     public interface INoSqlLogger
     {
         /// <summary>
+        /// Delete expired logs in the database
+        /// </summary>
+        /// <returns></returns>
+        bool ClearLogs();
+
+        /// <summary>
         /// Create a log in the application
         /// </summary>
         /// <typeparam name="T"></typeparam>

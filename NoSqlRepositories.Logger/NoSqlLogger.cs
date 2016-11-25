@@ -1,4 +1,5 @@
 ﻿using NoSqlRepositories.Core;
+using System;
 using System.IO;
 
 namespace NoSqlRepositories.Logger
@@ -6,10 +7,17 @@ namespace NoSqlRepositories.Logger
     public class NoSqlLogger : INoSqlLogger
     {
         private readonly INoSQLRepository<Log> repository;
+        private readonly int? daysBeforeExpiration;
 
         public NoSqlLogger(INoSQLRepository<Log> repository)
+            : this(repository, null)
+        {
+        }
+
+        public NoSqlLogger(INoSQLRepository<Log> repository, int? daysBeforeExpiration)
         {
             this.repository = repository;
+            this.daysBeforeExpiration = daysBeforeExpiration;
         }
 
         #region Interface
@@ -50,7 +58,11 @@ namespace NoSqlRepositories.Logger
             };
             var resultInsert = repository.InsertOne(log);
             if (resultInsert == InsertResult.inserted)
+            {
+                if (daysBeforeExpiration.HasValue)
+                    repository.ExpireAt(log.Id, DateTime.Now.AddDays(daysBeforeExpiration.Value));
                 return log.Id;
+            }
             else
                 return string.Empty; // Generate exception with contracts
         }
@@ -71,6 +83,11 @@ namespace NoSqlRepositories.Logger
         public void AddAttachment(string id, Stream filePathAttachment, string contentType, string attachmentName)
         {
             repository.AddAttachment(id, filePathAttachment, contentType, attachmentName);
+        }
+
+        public bool ClearLogs()
+        {
+            return repository.CompactDatabase();
         }
 
         #endregion

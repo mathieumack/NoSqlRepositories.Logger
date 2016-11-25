@@ -39,12 +39,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NoSqlRepositories.Core, Version=1.10.34.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NoSqlRepositories.Core.1.10.34.0\lib\portable-net45+sl5+wp8+wpa81+win8+monoandroid+monotouch\NoSqlRepositories.Core.dll</HintPath>
+    <Reference Include="NoSqlRepositories.Core, Version=1.14.39.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NoSqlRepositories.Core.1.14.39.0\lib\portable-net45+sl5+wp8+wpa81+win8+monoandroid+monotouch\NoSqlRepositories.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NoSqlRepositories.JsonFiles.Net, Version=1.10.34.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NoSqlRepositories.JsonFiles.Net.1.10.34.0\lib\net45\NoSqlRepositories.JsonFiles.Net.dll</HintPath>
+    <Reference Include="NoSqlRepositories.JsonFiles.Net, Version=1.14.39.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NoSqlRepositories.JsonFiles.Net.1.14.39.0\lib\net45\NoSqlRepositories.JsonFiles.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
