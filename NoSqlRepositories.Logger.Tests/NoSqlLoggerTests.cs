@@ -31,6 +31,55 @@ namespace NoSqlRepositories.Logger.Tests
         #endregion
 
         [TestMethod]
+        public void ClearLogs()
+        {
+            string idGenerated = logger.AddError(new ErrorEntity()
+            {
+                Property1 = "Property 1",
+                Property2 = "Sample 1"
+            }, "Error message", "Long message");
+
+            var repoItems = repo.GetAll();
+
+            Assert.IsTrue(repoItems.Count == 1);
+
+            repo.ExpireAt(idGenerated, DateTime.Now.AddHours(-1));
+
+            logger.ClearLogs();
+            
+            repoItems = repo.GetAll();
+
+            Assert.IsTrue(repoItems.Count == 0);
+        }
+
+        [TestMethod]
+        public void LogsExpiration()
+        {
+            string idGenerated = logger.AddError(new ErrorEntity()
+            {
+                Property1 = "Property 1",
+                Property2 = "Sample 1"
+            }, "Error message", "Long message");
+
+            var repoItems = repo.GetAll();
+
+            Assert.IsTrue(repoItems.Count == 1);
+
+            // We change expiration date to -1 in order to make all new logs automatically expired :
+            logger = new NoSqlLogger(repo, -1);
+
+            logger.AddError(new ErrorEntity()
+            {
+                Property1 = "Property 2",
+                Property2 = "Sample 2"
+            }, "Expired log", "Long message");
+
+            repoItems = repo.GetAll();
+
+            Assert.IsTrue(repoItems.Count == 1);
+        }
+
+        [TestMethod]
         public void AddError()
         {
             string idGenerated = logger.AddError(new ErrorEntity()
