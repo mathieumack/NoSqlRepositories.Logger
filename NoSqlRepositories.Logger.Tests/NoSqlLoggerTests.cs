@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NoSqlRepositories.JsonFiles.Net;
+using Newtonsoft.Json;
 
 namespace NoSqlRepositories.Logger.Tests
 {
@@ -55,7 +56,7 @@ namespace NoSqlRepositories.Logger.Tests
         [TestMethod]
         public void LogsExpiration()
         {
-            string idGenerated = logger.AddError(new ErrorEntity()
+            logger.AddError(new ErrorEntity()
             {
                 Property1 = "Property 1",
                 Property2 = "Sample 1"
@@ -93,9 +94,10 @@ namespace NoSqlRepositories.Logger.Tests
 
             var log = repo.GetById(idGenerated);
 
-            Assert.IsTrue(log.ContentLog is ErrorEntity);
-            Assert.IsTrue(((ErrorEntity)log.ContentLog).Property1 == "Property 1");
-            Assert.IsTrue(((ErrorEntity)log.ContentLog).Property2 == "Sample 1");
+            var errorEntity = JsonConvert.DeserializeObject<ErrorEntity>(log.ContentLog);
+            
+            Assert.IsTrue(errorEntity.Property1 == "Property 1");
+            Assert.IsTrue(errorEntity.Property2 == "Sample 1");
             Assert.IsTrue(log.Message == "Error message");
             Assert.IsTrue(log.LongMessage == "Long message");
         }

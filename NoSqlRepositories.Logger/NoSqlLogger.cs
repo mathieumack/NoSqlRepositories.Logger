@@ -1,4 +1,5 @@
-﻿using NoSqlRepositories.Core;
+﻿using Newtonsoft.Json;
+using NoSqlRepositories.Core;
 using System;
 using System.IO;
 
@@ -53,7 +54,7 @@ namespace NoSqlRepositories.Logger
             {
                 Message = message,
                 LongMessage = longMessage,
-                ContentLog = contentLog,
+                ContentLog = JsonConvert.SerializeObject(contentLog),
                 Level = level
             };
             var resultInsert = repository.InsertOne(log);

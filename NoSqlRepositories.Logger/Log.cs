@@ -44,8 +44,8 @@ namespace NoSqlRepositories.Logger
         public LogLevel Level { get; set; }
 
         /// <summary>
-        /// Custom object added to the log
+        /// Custom object added to the log, serialized in json
         /// </summary>
-        public object ContentLog { get; set; }
+        public string ContentLog { get; set; }
     }
 }
