@@ -1,7 +1,11 @@
-﻿using Newtonsoft.Json;
-using NoSqlRepositories.Core;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using Newtonsoft.Json;
+using NoSqlRepositories.Core;
+using NoSqlRepositories.Core.Queries;
 
 namespace NoSqlRepositories.Logger
 {
@@ -80,7 +84,7 @@ namespace NoSqlRepositories.Logger
         {
             return AddLog(contentLog, message, longMessage, LogLevel.Error);
         }
-        
+
         public void AddAttachment(string id, Stream filePathAttachment, string contentType, string attachmentName)
         {
             repository.AddAttachment(id, filePathAttachment, contentType, attachmentName);
@@ -89,6 +93,36 @@ namespace NoSqlRepositories.Logger
         public bool ClearLogs()
         {
             return repository.CompactDatabase();
+        }
+
+        public bool TryExtractLogToFile(Stream stream, DateTime dateMin, DateTime dateMax, IList<LogLevel> logLevels)
+        {
+            try
+            {
+                ExtractLogToFile(stream, dateMin, dateMax, logLevels);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public void ExtractLogToFile(Stream stream, DateTime dateMin, DateTime dateMax, IList<LogLevel> logLevels)
+        {
+            var logs = repository.DoQuery(new NoSqlQuery<Log>()
+            {
+                PostFilter = log => log.SystemCreationDate > dateMin && log.SystemCreationDate < dateMax && logLevels.Contains(log.Level)
+            }).OrderBy(log => log.SystemLastUpdateDate);
+
+            StringBuilder serializedLogs = new StringBuilder();
+            foreach (var log in logs)
+            {
+                serializedLogs.Append(JsonConvert.SerializeObject(log));
+            }
+
+            var encodedLogs = Encoding.UTF8.GetBytes(serializedLogs.ToString());
+            stream.Write(encodedLogs, 0, encodedLogs.Length);
         }
 
         #endregion

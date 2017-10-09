@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NoSqlRepositories.JsonFiles.Net;
 using Newtonsoft.Json;
+using NoSqlRepositories.JsonFiles.Net;
 
 namespace NoSqlRepositories.Logger.Tests
 {
@@ -42,15 +43,15 @@ namespace NoSqlRepositories.Logger.Tests
 
             var repoItems = repo.GetAll();
 
-            Assert.IsTrue(repoItems.Count == 1);
+            Assert.IsTrue(repoItems.Count() == 1);
 
             repo.ExpireAt(idGenerated, DateTime.Now.AddHours(-1));
 
             logger.ClearLogs();
-            
+
             repoItems = repo.GetAll();
 
-            Assert.IsTrue(repoItems.Count == 0);
+            Assert.IsTrue(repoItems.Count() == 0);
         }
 
         [TestMethod]
@@ -64,7 +65,7 @@ namespace NoSqlRepositories.Logger.Tests
 
             var repoItems = repo.GetAll();
 
-            Assert.IsTrue(repoItems.Count == 1);
+            Assert.IsTrue(repoItems.Count() == 1);
 
             // We change expiration date to -1 in order to make all new logs automatically expired :
             logger = new NoSqlLogger(repo, -1);
@@ -77,7 +78,7 @@ namespace NoSqlRepositories.Logger.Tests
 
             repoItems = repo.GetAll();
 
-            Assert.IsTrue(repoItems.Count == 1);
+            Assert.IsTrue(repoItems.Count() == 1);
         }
 
         [TestMethod]
@@ -90,12 +91,12 @@ namespace NoSqlRepositories.Logger.Tests
             }, "Error message", "Long message");
             var repoItems = repo.GetAll();
 
-            Assert.IsTrue(repoItems.Count == 1);
+            Assert.IsTrue(repoItems.Count() == 1);
 
             var log = repo.GetById(idGenerated);
 
             var errorEntity = JsonConvert.DeserializeObject<ErrorEntity>(log.ContentLog);
-            
+
             Assert.IsTrue(errorEntity.Property1 == "Property 1");
             Assert.IsTrue(errorEntity.Property2 == "Sample 1");
             Assert.IsTrue(log.Message == "Error message");

@@ -48,9 +48,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NoSqlRepositories.Core, Version=1.16.41.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NoSqlRepositories.Core.1.16.41.0\lib\portable-net45+sl5+wp8+wpa81+win8+monoandroid+monotouch\NoSqlRepositories.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="NoSqlRepositories.Core, Version=2017.10919.11157.59, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NoSqlRepositories.Core.2017.10919.11157.59\lib\portable-net45+sl5+wp8+wpa81+win8+monoandroid+monotouch\NoSqlRepositories.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
