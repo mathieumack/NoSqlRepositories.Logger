@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace NoSqlRepositories.Logger
 {
@@ -66,7 +68,7 @@ namespace NoSqlRepositories.Logger
         /// <param name="level">Criticity of the log</param>
         /// <returns>ID of the created log</returns>
         string AddLog<T>(T contentLog, string message, string longMessage, LogLevel level) where T : class;
-        
+
         /// <summary>
         /// Create a log in the application with error level.
         /// </summary>
@@ -85,5 +87,24 @@ namespace NoSqlRepositories.Logger
         /// <param name="contentType">Content type of the file</param>
         /// <param name="attachmentName">Name of the file to be attached</param>
         void AddAttachment(string id, Stream filePathAttachment, string contentType, string attachmentName);
+
+        /// <summary>
+        /// Extract the logs from the database to a file. If an exception occurs while extracting the logs, returns false. Returns true otherwise.
+        /// </summary>
+        /// <param name="stream">Stream where the logs will be serialized</param>
+        /// <param name="dateMin">start date for the extraction</param>
+        /// <param name="dateMax">end date for the extraction</param>
+        /// <param name="logLevels">levels of logs we want extracted to the file</param>
+        /// <returns></returns>
+        bool TryExtractLogToFile(Stream stream, DateTime dateMin, DateTime dateMax, IList<LogLevel> logLevels);
+
+        /// <summary>
+        /// Extract the logs from the database to a file.
+        /// </summary>
+        /// <param name="stream">stream where the logs will be serialized</param>
+        /// <param name="dateMin">start date for the extraction</param>
+        /// <param name="dateMax">end date for the extraction</param>
+        /// <param name="logLevels">levels of logs we want extracted to the file</param>
+        void ExtractLogToFile(Stream stream, DateTime dateMin, DateTime dateMax, IList<LogLevel> logLevels);
     }
 }
